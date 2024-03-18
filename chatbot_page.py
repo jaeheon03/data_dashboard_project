@@ -5,15 +5,18 @@ import os
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import ChatMessage
 
+# ai에 입략하기 적합한 형태(string)로 데이터 변경하는 함수
 def chatbot_data():
-    df=pd.read_csv(f'data/방문지정보.csv')
+    #데이터 불러오기
+    df=pd.read_csv('data/방문지정보.csv')
 
-    # 데이터 불러오기
+    # 데이터 전처리
     df = df.dropna(subset=['방문지명', 'X좌표', 'Y좌표','체류시간','만족도','재방문의향','추천의향'])
 
-    # 사용자가 선택한 방문지명과 도로명주소를 고르기
+    # 상위 40개의 관광지 추출
     top_40 = df['방문지명'].value_counts().head(40)
 
+    # 상위 40개의 관광지 string으로 변경
     top_40_str=''
     for index, count in zip(top_40.index,top_40):
         top_40_str+=f'특정 기간동안 관광객들이 방문지로서 {index}을 {count}번 갔어\n'
@@ -21,6 +24,7 @@ def chatbot_data():
     top_40_df=df[df['방문지명'].isin(top_40.index)] 
     top_40_df=top_40_df[['방문지명', 'X좌표', 'Y좌표','체류시간','만족도','재방문의향','추천의향','도로명주소']]
 
+    # 상위 40개의 관광지 정보 string으로 변경
     place_information=''
     for i in top_40.index:
         place_df=df[df['방문지명']==i]

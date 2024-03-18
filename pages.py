@@ -16,13 +16,15 @@ accommodation_data=get_data('숙박소비내역')
 
 
 def home():
+    # 서비스 설명
     txt = '2022년 대한민국 남부의 관광 데이터를 활용해 제주도의 유명식당,숙박 시설, 대표 관광지의 정보를 안내하는 서비스입니다.'
 
     st.write(txt)
+
     # 데이터 불러오기
     df = places_data.dropna(subset=['방문지명', 'X좌표', 'Y좌표'])
 
-    # 사용자가 선택한 방문지명과 도로명주소를 고르기
+    # 상위40개 관광지 
     top_40 = df['방문지명'].value_counts().head(40)
 
     # 지도 초기 위치 설정
@@ -33,6 +35,7 @@ def home():
     unique_places = df[df['방문지명'].isin(top_40.index)].drop_duplicates(subset=['방문지명'])
 
     
+    # 사용자가 선택한 방문지명과 도로명주소를 고르기
     options = st.multiselect(
         '지도에 표시하고 싶은 곳들을 선택해 주세요',
         unique_places['방문지명'],
@@ -55,22 +58,23 @@ def landmark():
     initial_location = [33.370667, 126.536667]
     map = folium.Map(location=initial_location, zoom_start=10)
 
-    # 데이터 불러오기
+    # 데이터 전처리
     df = places_data.dropna(subset=['방문지명', 'X좌표', 'Y좌표'])
 
-    # 사용자가 선택한 방문지명과 도로명주소를 고르기
     top_40 = df['방문지명'].value_counts().head(40)
 
     # 중복 제거된 방문지 정보
     unique_places = df[df['방문지명'].isin(top_40.index)].drop_duplicates(subset=['방문지명'])
 
 
+    # 사용자가 선택한 방문지명과 도로명주소를 고르기
     option = st.selectbox(
     '어느 방문지를 고르시겠습니까?',
     unique_places['방문지명'],
     index=None,)
 
     if option:
+        # 방문지별 평균 구하기
         df_place=(df[df['방문지명']==option])
         df_place=df_place.dropna(subset=['체류시간', '재방문여부', '만족도', '재방문의향', '추천의향'])
         summary=df_place[['체류시간', '만족도', '재방문의향', '추천의향']]
@@ -79,6 +83,7 @@ def landmark():
 
         prob=df_place['재방문여부'].value_counts().get('Y', 0)/len(df_place)
         summary['재방문율']=prob
+
         # 마커를 추가하합니다.
         place=unique_places[unique_places['방문지명']==option]
         folium.Marker(
@@ -106,6 +111,7 @@ def restaurant():
 
     # 상호명과 도로명주소를 기준으로 그룹화하고 상위 10개를 선택
     top_20 = df.groupby(['상호명', '도로명주소']).size().reset_index(name='count').nlargest(20, 'count')
+    
     # 사용자가 선택한 상호명과 도로명주소를 고르기
     option01 = st.selectbox(
     "가장 많이 찾는 음식점 TOP30",
@@ -123,6 +129,7 @@ def restaurant():
 
 
 def accommodation():
+    
     # 데이터 전처리
     df = accommodation_data.dropna(subset=['숙소명','도로명주소'])
 
@@ -135,10 +142,11 @@ def accommodation():
     index=None,
     )
     if option01:
-        # 선택된 상호명에 해당하는 데이터프레임 필터링
+        # 선택된 숙소명에 해당하는 데이터프레임 필터링
         filtered_df = df[df['숙소명']==option01]
         filtered_df = filtered_df[['도로명주소','소비인원','결제금액']]
 
+        # 숙소명 별로 평균 구하기
         st.write(filtered_df['도로명주소'].iloc[-1])
         mean_people=filtered_df[filtered_df['소비인원']!=0]['소비인원'].mean()
         mean_price=filtered_df[filtered_df['결제금액']!=0]['결제금액'].mean()
