@@ -7,28 +7,28 @@
 ## 페이지 설명
 ### 1. home
 - 2022년 한 해동안 관광객들이 많이 방문한 상위 40개의 관광지를 지도에 표현해 보았고 도로명주소와 평균 만족도를 제공합니다.
-![home](read_me_jpg\home.png)
+![home](read_me_jpg/ome.png)
 
 
 ### 2. 대표 관광지 
 - 관심있는 관광지 선택하면 지도에 그 관광지의 위치를 표시해주고 도로명주소,평균 체류시간, 평균 만족도, 평균 재방문의향, 평균 추천의향, 재방문율을 제공합니다.
-![home](read_me_jpg\place.png)
+![home](read_me_jpg/place.png)
 
 
 ### 3. 유명 식당
 - 2022년 한 해동안 관광객들이 많이 방문한 상위 30개 식당들의 정보를 제공합니다. 
 관심있는 식당을 선택하면 식당의 도로명주소와 사람들의 소비금액,소비내역을 알 수 있습니다.
-![home](read_me_jpg\restaurant.png)
+![home](read_me_jpg/restaurant.png)
 
 
 ### 4. 숙박 시설
 - 2022년 한 해동안 관광객들이 많이 방문한 상위 10개 숙박 시설들의 정보를 제공합니다. 
 관심있는 숙박 시설을 선택하면 도로명주소, 평균 숙박인원, 평균 결제 금액을 알 수 있습니다.
-![home](read_me_jpg\accommodation.png)
+![home](read_me_jpg/accommodation.png)
 
 ### 5. 챗봇
 - 관광 데이터를 입력받은 AI가 여행에 관련된 정보를 제공합니다. 주로 추천여행경로를 제공합니다.
-![home](read_me_jpg\chatbot.png)
+![home](read_me_jpg/chatbot.png)
 
 
 ## 한계점
