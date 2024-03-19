@@ -1,7 +1,6 @@
 ﻿import streamlit as st
-import pandas as pd
-from pages import *
 from chatbot_page import *
+from pages import *
 
 st.title('데이터 대시보드 프로젝트')
 
